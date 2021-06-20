@@ -1,0 +1,42 @@
+{% extends 'store/main.html'  %}
+{% load static %}
+
+{% block title %}
+	<title>Product View</title>
+{% endblock title %}
+
+{% block content %}
+	{% if product %}
+		<div class="category">
+			<p>
+				<a href="{% url 'Store' %}"><span style="color: black;">{{ product.category }}</span></a>
+				<span style="color: #676262;font-weight: bold;"> > </span>
+			</p>
+		</div>
+		<hr>
+		<div class="row">
+			<div class="col-sm-6" style="text-align: center; height: 500px; overflow: auto;">
+				<img class="view-thumbnail" src="/{{ product.image }}">
+			</div>
+			<div class="col-sm-5">
+				<div>
+					<p style="font-size: 24px!important;line-height: 32px!important;">{{ product.name }}</p>
+				</div>
+				<hr>
+				<div>
+					<p><span>Price: </span><span style="color: black;font-weight: bold; font-size: 20px;"> {{ product.price }}&#x20B9;</span></p>
+				</div>
+				<div>
+					<p><span style="color: black;">Description: </span><br>
+						<span style="color: #676262;"> {{ product.Description|safe }}	</span></p>
+				</div>
+				<div>
+					<button data-product="{{ product.id }}" data-action="add" class="btn btn-outline-secondary add-btn update-cart"><img id="cart-icon" src="{% static 'images/cart.png' %}" style="text-align: left; width:30px; margin: 0 !important;">&nbsp;&nbsp;&nbsp;&nbsp;Add to Cart</button>
+
+					<a href='{% url "Cart" %}'><button class="btn btn-outline-secondary">Go to Cart</button></a>
+				</div>
+			</div>
+		</div>
+		<hr>
+	{% endif %}
+{% endblock content %}

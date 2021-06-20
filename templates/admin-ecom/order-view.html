@@ -1,0 +1,83 @@
+{% extends 'admin/admin-main.html' %}
+{% load static %}
+
+{% block title %}
+	<title>Order Page</title>
+{% endblock title %}
+
+{% block content %}
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="box-element">
+					<a  class="btn btn-outline-dark" href="{{request.META.HTTP_REFERER}}">&#x2190; Go Back</a>
+			</div>
+			<br>
+			<div class="box-element">
+				<table style="width:100%">
+					<tr>
+						<td>
+							<label style="margin-bottom: 0px !important; font-weight: bold;">Customer Name:</label>
+							<div>
+								{{order.customer.first_name}}
+								{{order.customer.last_name}}
+							</div>
+						</td>
+						<td></td>
+						<td style="float: right !important;">
+							<label style="margin-bottom: 0px !important; font-weight: bold;">Transaction Id:</label>
+							<div>
+								{{order.transaction_id}}
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label style="margin-bottom: 0px !important; font-weight: bold;">Customer Address:</label>
+							<div>
+								{{address.address}}<span>,</span>{{address.city}}<span>,</span><br>
+								{{address.state}}<span>,</span>{{ address.zipcode }}<span>.</span><br><br>
+							</div>
+						</td>
+					</tr>
+				</table>
+				<br>	
+			</div>
+			<br>
+			<div class="box-element">
+				<div class="cart-row">
+					<div style="flex:2"></div>
+					<div style="flex:2"><strong>Item</strong></div>
+					<div style="flex:1"><strong>Price</strong></div>
+					<div style="flex:1"><strong>Quantity</strong></div>
+					<div style="flex:1"><strong>Total</strong></div>
+				</div>
+			{% for item in items %}
+					<div class="cart-row">
+						<div style="flex:2; text-align: center; ">
+							{% if item.product.imageURL %}
+							<img class="row-image" src="/{{ item.product.imageURL }}">
+							{% else %}
+							<img class="row-image" src="/{% static 'images/placeholder.png' %}">
+							{% endif %}
+						</div>
+						<div style="flex:2"><p>{{ item.product.name }}</p></div>
+						<div style="flex:1"><p>&#x20B9;{{ item.product.price | floatformat:2}}</p></div>
+						<div style="flex:1"><p>x{{ item.quantity }}</p></div>
+						<div style="flex:1"><p>&#x20B9;{{ item.get_total }}</p></div>
+					</div>
+			{% endfor %}
+				<hr>
+				<div class="cart-row">
+					<div style="flex:2"><!-- <button data-order="{{ key.id }}" class="btn btn-outline-danger cancel-order"><strong>Cancel Order</strong></button> --></div>
+					<div style="flex:2"><strong>Total Items & Amount : </strong></div>
+					<div style="flex:1"></div>
+					<div style="flex:1"><strong>{{ order.get_cart_items }}</strong></div>
+					<div style="flex:1"><strong>{{ order.get_cart_total }}&#x20B9;</strong></div>
+				</div>
+			</div>
+			<br>
+
+
+		</div>
+	</div>
+{% endblock content %}

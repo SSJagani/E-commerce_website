@@ -1,0 +1,63 @@
+{% extends 'store/main.html'  %}
+{% load static %}
+
+{% block title %}
+	<title>Order Page</title>
+{% endblock title %}
+
+{% block orderactive %}
+active
+{% endblock orderactive %}
+
+{% block content %}
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="box-element">
+					<a  class="btn btn-outline-dark" href="{% url 'Store' %}">&#x2190; Continue Shopping</a>
+					<a  class="btn btn-outline-dark" href="{% url 'Cart' %}" style="float:right"> Go To Cart &#8594;</a>
+			</div>
+			<br>
+			{% for key,value in orders.items %}
+			<div class="box-element">
+				<div class="cart-row">
+					<div style="flex:2"></div>
+					<div style="flex:2"><strong>Item</strong></div>
+					<div style="flex:1"><strong>Price</strong></div>
+					<div style="flex:1"><strong>Quantity</strong></div>
+					<div style="flex:1"><strong>Total</strong></div>
+				</div>
+				{% for item in value %}
+					<div class="cart-row">
+						<div style="flex:2; text-align: center; ">
+							{% if item.product.imageURL %}
+							<img class="row-image" src="{{ item.product.imageURL }}">
+							{% else %}
+							<img class="row-image" src="{% static 'images/placeholder.png' %}">
+							{% endif %}
+						</div>
+						<div style="flex:2"><p>{{ item.product.name }}</p></div>
+						<div style="flex:1"><p>&#x20B9;{{ item.product.price | floatformat:2}}</p></div>
+						<div style="flex:1"><p>x{{ item.quantity }}</p></div>
+						<div style="flex:1"><p>&#x20B9;{{ item.get_total }}</p></div>
+					</div>
+					{% endfor %}
+				<hr>
+				<div class="cart-row">
+					{% if key.cancel_order %}
+					<div style="flex:2"><span style="color: red;font-weight: bold;">Cancelled</span></div>
+					{% else %}
+					<div style="flex:2"><button data-order="{{ key.id }}" class="btn btn-outline-danger cancel-order"><strong>Cancel Order</strong></button></div>
+					{% endif %}
+					<div style="flex:2"><strong>Total Items & Amount : </strong></div>
+					<div style="flex:1"></div>
+					<div style="flex:1"><strong>{{ key.get_cart_items }}</strong></div>
+					<div style="flex:1"><strong>{{ key.get_cart_total }}&#x20B9;</strong></div>
+				</div>
+			</div>
+			<br>
+
+			{% endfor %}
+
+		</div>
+	</div>
+{% endblock content %}

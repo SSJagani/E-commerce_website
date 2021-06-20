@@ -1,0 +1,32 @@
+{% extends 'admin/admin-main.html'  %}
+{% load static %}
+{% block title %}
+<title> Store Page </title> 
+{% endblock title %}
+{% block homeactive %}
+active
+{% endblock homeactive %}
+{% block content %}
+	<div class="row">
+		{% for product in Products %}
+			<div class="col-lg-4">
+			{% if product.image %}
+			<img class="thumbnail" src="/{{ product.image.url }}">
+			{% else %}
+			<img class="thumbnail" src="/{% static 'images/placeholder.png' %}">
+			{% endif %}
+			<div class="box-element product">
+				<h6><strong>{{ product.name }}</strong></h6>
+				<hr>
+
+				<a class="btn btn-outline-success" href="product_view/{{ product.id }}/Ref=&8gQZDf1uFb">View</a>
+				<a class="btn btn-outline-secondary" href="product_edit/{{ product.id }}/Ref=$E2CaBHNP2R">Edit</a>
+						
+				<!-- <button data-product="{{ product.id }}" data-action="add" class="btn btn-outline-secondary">Edit</button> -->
+				<input type="submit" data-product="{{ product.id }}" class="btn btn-outline-danger delete-items" name="delete" value="Dalete">
+				<h4 style="display: inline-block; float: right"><strong>&#x20B9;{{ product.price | floatformat:2 }}</strong></h4>
+			</div>	
+		</div>
+		{% endfor %}
+	</div>
+{% endblock content %}

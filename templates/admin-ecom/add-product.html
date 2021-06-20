@@ -1,0 +1,136 @@
+{% extends 'admin/admin-main.html' %}
+{% block addactive %} 
+active
+{% endblock addactive %}
+{% block content %}
+	{% if product %}
+		<div class="row">
+			{% for i in product %}
+			<div class="col-sm-12">
+			<form action="" method="POST" enctype='multipart/form-data'>{% csrf_token %}
+				<div class="row my-3">
+					<label class="col-2">Product Name :</label>
+					<div class="col-6">
+						<input type="text" class="col-lg-10 form-control" name="product_name" id='product_name' placeholder="Product Name" value="{{i.name}}" required="">
+					</div>
+				</div>
+				<div class="row my-3">
+					<label class="col-2">Price :</label>
+					<div class="col-6">
+						<input type="number" class="col-lg-10 form-control" name="price" id='price' placeholder="Price" value="{{i.price}}" required="">
+					</div>
+				</div>
+				<div class="row my-3">
+					<label class="col-2">Category :</label>
+					<div class="col-6">
+						<select class="col-lg-10 form-control" name="category" id='category' required>
+							<option value=''>Select Category</option>
+							{% for cat in catgorys %}
+								<option value="{{cat.id}}" {% if i.category.id == cat.id %} selected="selected" {% endif %}>{{cat.name}}</option>
+							{% endfor %}
+						</select>
+					</div>
+				</div>
+				<div class="row my-3">
+					<label class="col-2">Description :</label>
+					<div class="col-6">
+						<textarea class="col-lg-10 form-control" rows="6" cols="50" name="description" id='description' placeholder="Description" required="">{{i.Description}}</textarea>
+					</div>
+					<div class="row col-4">
+						<label class="mr-2">Image</label>
+						<div>
+							<img class="thumbnail" src="/{{ i.image.url }}" style="width: 200px;height: 150px">
+						</div>
+					</div>
+				</div>
+				<div class="row my-3">
+					<label class="col-2">Digital :</label>
+					<div class="col-6">
+						<select class="col-lg-10 form-control" name="digital" id='digital' required>
+							<option value="">Unknown</option>
+							<option value="False" {% if i.digital == False %} selected="selected" {% endif %}>No</option>
+							<option value="True" {% if i.digital == True %} selected="selected" {% endif %}>Yes</option>
+						</select>
+					</div>
+				</div>
+				<div class="row my-3">
+					<label class="col-2">Product Image :</label>
+					<div class="col-6">
+						<input type="file" class="col-lg-10" name="image" id='image' placeholder="Product Image" value="{{i.image.url}}">
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-2 ml-5">
+						<input id="form-button" class="btn btn-success btn-block" type="submit" value="Continue">
+					</div>
+					<div class="col-2 ml-3">
+						<a href="{% url 'Admin-Store' %}" class="btn btn-danger btn-block">Cancel</a>
+					</div>
+				</div>
+			</form>
+			</div>
+			{% endfor %}
+		</div>
+	{% else %}
+		<div class="row">
+			<div class="col-sm-12">
+			<form action="" method="POST" enctype='multipart/form-data'>{% csrf_token %}
+				<div class="row my-3">
+					<label class="col-2">Product Name :</label>
+					<div class="col-6">
+						<input type="text" class="col-lg-10 form-control" name="product_name" id='product_name' placeholder="Product Name" required="">
+					</div>
+				</div>
+				<div class="row my-3">
+					<label class="col-2">Price :</label>
+					<div class="col-6">
+						<input type="number" class="col-lg-10 form-control" name="price" id='price' placeholder="Price" required="">
+					</div>
+				</div>
+				<div class="row my-3">
+					<label class="col-2">Category :</label>
+					<div class="col-6">
+						<select class="col-lg-10 form-control" name="category" id='category' required>
+							<option value=''>Select Category</option>
+							{% for i in catgorys %}
+								<option value="{{i.id}}">{{i.name}}</option>
+							{% endfor %}
+						</select>
+					</div>
+				</div>
+				<div class="row my-3">
+					<label class="col-2">Description :</label>
+					<div class="col-6">
+						<textarea class="col-lg-10 form-control" rows="6" cols="50" name="description" id='description' placeholder="Description" required=""></textarea>
+					</div>
+				</div>
+				<div class="row my-3">
+					<label class="col-2">Digital :</label>
+					<div class="col-6">
+						<select class="col-lg-10 form-control" name="digital" id='digital' required>
+							<option value="">Unknown</option>
+							<option value="False">No</option>
+							<option value="True">Yes</option>
+						</select>
+					</div>
+				</div>
+				<div class="row my-3">
+					<label class="col-2">Product Image :</label>
+					<div class="col-6">
+						<input type="file" class="col-lg-10" name="image" id='image' placeholder="Product Image" required="">
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-2 ml-5">
+						<input id="form-button" class="btn btn-success btn-block" type="submit" value="Continue">
+					</div>
+					<div class="col-2 ml-3">
+						<a href="{% url 'Admin-Store' %}" class="btn btn-danger btn-block">Cancel</a>
+						<!-- <input id="form-button" class="btn btn-danger btn-block" type="submit" value="Cancel"> -->
+					</div>
+				</div>
+			</form>
+			</div>
+		</div>
+	{% endif %}
+{% endblock content %}

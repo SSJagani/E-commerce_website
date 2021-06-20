@@ -1,0 +1,68 @@
+{% extends 'admin/admin-main.html' %}
+{% load static %}
+
+{% block title %}
+	<title>Not Complete Order Page</title>
+{% endblock title %}
+
+{% block notorderactive %}
+active
+{% endblock notorderactive %}
+
+{% block content %}
+	<div class="row my-5">
+		<h3>Not Complete Order</h3>
+		<table class="table table-bordered ">
+		  <thead>
+			<tr>
+			  <th>Customer Name</th>
+			  <th>Transaction</th>
+			  <th>Total Items</th>
+			  <th>Total Amounts</th>
+			  <th></th>
+			  <th></th>
+			  <th></th>
+			</tr>
+		  </thead>
+		  <tbody>
+			{% for order in orders %}
+			  <tr>
+				<td>{{ order.customer }}</td>
+				<td>{{ order.transaction_id }}</td>
+				<td>{{ order.get_cart_items }}</td>
+				<td>{{ order.get_cart_total }}</td>
+				<td><button class="btn btn-outline-success">Accept</button></td>
+				<td><img src="{% static 'images/order_done.png' %}" data-order={{ order.id }} class="shipping-complete" style="width: 30px"></td>
+				<td><a href="admin-order-view/{{ order.id }}/ref=$goenDif85UJ"><img src="{% static 'images/view.png' %}" style="width: 35px"></a></td>
+			  </tr>
+			{% endfor %}
+		  </tbody>
+		</table>		
+		{% if orders.has_other_pages %}
+			<div class="col-lg-12 col-md-7 paginate_btn">
+			    <div class="dataTables_paginate paging_simple_numbers" id="dtBasicExample_paginate">
+			        <ul class="pagination">
+			        	{% if orders.has_previous %}
+			            <li class="paginate_button page-item previous" id="dtBasicExample_previous"><a href="?page={{ orders.previous_page_number }}" aria-controls="dtBasicExample" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li>
+			            {% else %}
+			            	<li class="paginate_button page-item previous disabled" id="dtBasicExample_previous"><a href="#" aria-controls="dtBasicExample" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li>
+						{% endif %}
+						{% for i in orders.paginator.page_range %}
+							{% if orders.number == i %}
+			    		        <li class="paginate_button page-item active"><a href="?page={{ i }}" aria-controls="dtBasicExample" data-dt-idx="1" tabindex="0" class="page-link">{{ i }}</a></li>
+			            	{% else %}
+			            		<li class="paginate_button page-item"><a href="?page={{ i }}" aria-controls="dtBasicExample" data-dt-idx="1" tabindex="0" class="page-link">{{ i }}</a></li>
+				
+							{% endif %}
+						{% endfor %}
+						{% if orders.has_next %}
+			           		<li class="paginate_button page-item next" id="dtBasicExample_next"><a href="?page={{ orders.next_page_number }}" aria-controls="dtBasicExample" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li>
+			            {% else %}
+			            	<li class="paginate_button page-item next disabled" id="dtBasicExample_next"><a href="#" aria-controls="dtBasicExample" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li>
+						{% endif %}
+			        </ul>
+			    </div>
+			</div>
+		{% endif %}
+	</div>
+{% endblock content %}
